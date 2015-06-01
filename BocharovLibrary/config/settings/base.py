@@ -123,3 +123,6 @@ STATICFILE_FINDERS = (
 )
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = "library.LibraryUser"

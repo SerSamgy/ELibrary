@@ -64,5 +64,6 @@ secrets.json
 
 # SQLite DB file
 *.sqlite3
+*.sql
 
 
