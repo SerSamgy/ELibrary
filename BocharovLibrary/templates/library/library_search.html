@@ -5,7 +5,14 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="container">
-        {% include "library/library_search_form.html" with form=form %}
+    <div class="panel panel-default">
+        <div class="panel-body">
+            {% include "library/library_search_form.html" with form=form %}
+        </div>
     </div>
+    {% if books %}
+        {% include "library/library_books_table.html" with books=books %}
+    {% else %}
+        <p>Не заданы критерии поиска</p>
+    {% endif %}
 {% endblock content %}

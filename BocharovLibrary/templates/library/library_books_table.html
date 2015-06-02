@@ -1,0 +1,30 @@
+{% block books_table %}
+    <h5>Количество найденных книг по запросу: {{ books|length }}</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Автор</th>
+                <th>Название</th>
+                <th>Жанр</th>
+                <th>Год издания</th>
+                <th>Издательство</th>
+                <th>Ссылка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.genre.title }}</td>
+                    <td>{{ book.year }}</td>
+                    <td>{{ book.publisher }}</td>
+                    <td><a href="{% url 'book' book.id %}">
+                            {{ book.book_file.url }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock books_table %}
