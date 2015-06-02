@@ -1,10 +1,20 @@
 from django import forms
+from django.apps import apps as django_apps
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
+from crispy_forms.bootstrap import StrictButton
+
+from fields import YearField
+
 
 User = get_user_model()
+# get model after application had been registered
+app = django_apps.get_app_config('library')
+Genre = app.get_model('Genre')
 
 class LibraryUserCreationForm(forms.ModelForm):
     """
@@ -62,3 +72,28 @@ class LibraryUserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+class BookSearchForm(forms.Form):
+    author = forms.CharField(label=_("Автор"), max_length=64, required=False)
+    title = forms.CharField(label=_("Название"), max_length=255, required=False)
+    genre = forms.ModelChoiceField(Genre.objects.all(), label=_("Жанр"),
+                                   required=False)
+    year = YearField(label=_("Год издания"), required=False)
+    publisher = forms.CharField(label=_("Издательство"), max_length=64,
+                                required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(BookSearchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_class = "form-horizontal"
+        self.helper.label_class = "col-lg-2"
+        self.helper.field_class = "col-lg-10"
+        self.helper.layout = Layout(
+            'author',
+            'title',
+            'genre',
+            'year',
+            'publisher',
+            StrictButton(_("Поиск"), css_class="btn-primary btn-hg"),
+            StrictButton(_("Очистить"), css_class="btn-default")
+        )
