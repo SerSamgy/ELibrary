@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+# from django.views.generic.base import RedirectView
+
+from library import urls as library_urls
 
 urlpatterns = [
+    # url(r'^$', RedirectView.as_view(pattern_name='library', permanent=True),
+    #     name='root'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^library/', include(library_urls)),
 ]

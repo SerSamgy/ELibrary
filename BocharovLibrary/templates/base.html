@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}Библиотека Бочарова{% endblock title %}
+    </title>
+    {% block stylesheets %}
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'css/bootstrap.css' %}">
+    {% endblock stylesheets %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <h1>Добро пожаловать в электронную библиотеку Бочарова!</h1>
+        </div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="{% url 'home' %}">
+                      На главную страницу</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        {% comment %}
+                            Paste here navigation tabs for each
+                            application separately
+                        {% endcomment %}
+                        {% block navigation %}{% endblock navigation %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+</body>
+</html>
