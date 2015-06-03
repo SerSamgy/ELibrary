@@ -29,8 +29,10 @@ def books(request):
                     # since 'genre' field is a ForeignKey, we need to pass
                     # another field to search in
                     skey = "%s__title__icontains" % field
-                skwargs[skey] = svalue if svalue else ''
-            books = Book.objects.filter(**skwargs)
+                if svalue: skwargs[skey] = svalue
+            # filter with empty kwargs returns all values from db
+            # we don't need it
+            if skwargs: books = Book.objects.filter(**skwargs)
     else:
         form = BookSearchForm()
     args['form'] = form

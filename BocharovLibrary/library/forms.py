@@ -5,7 +5,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout
+from crispy_forms.layout import Layout, Reset
 from crispy_forms.bootstrap import StrictButton
 
 from fields import YearField
@@ -96,5 +96,5 @@ class BookSearchForm(forms.Form):
             'publisher',
             StrictButton(_("Поиск"), type='submit',
                          css_class="btn-primary btn-hg"),
-            StrictButton(_("Очистить"), css_class="btn-default")
+            Reset('reset', _("Очистить"))
         )
