@@ -11,10 +11,32 @@ def home(request):
 
 @require_http_methods(['GET', 'POST'])
 def books(request):
-    form = BookSearchForm()
-    books = Book.objects.filter(id=1) # TODO: delete this!
+    args = {}
+    books = None
+    if request.method == 'POST':
+        form = BookSearchForm(request.POST)
+        if form.is_valid():
+            skwargs = {}
+            for field in form.fields:
+                svalue = form.cleaned_data[field]
+                if field != 'genre':
+                    # according to this doc:
+                    # https://docs.djangoproject.com/en/1.8/ref/databases/#sqlite-string-matching
+                    # there is a slight difference between case-sensitive and
+                    # case-insensitive searches
+                    skey = "%s__icontains" % field
+                else:
+                    # since 'genre' field is a ForeignKey, we need to pass
+                    # another field to search in
+                    skey = "%s__title__icontains" % field
+                skwargs[skey] = svalue if svalue else ''
+            books = Book.objects.filter(**skwargs)
+    else:
+        form = BookSearchForm()
+    args['form'] = form
+    args['books'] = books
     return render(request, "library/library_search.html",
-                  context={'form': form, 'books': books})
+                  context=args)
 
 @require_GET
 def book(request, pk):

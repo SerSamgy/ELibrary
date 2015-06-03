@@ -94,6 +94,7 @@ class BookSearchForm(forms.Form):
             'genre',
             'year',
             'publisher',
-            StrictButton(_("Поиск"), css_class="btn-primary btn-hg"),
+            StrictButton(_("Поиск"), type='submit',
+                         css_class="btn-primary btn-hg"),
             StrictButton(_("Очистить"), css_class="btn-default")
         )

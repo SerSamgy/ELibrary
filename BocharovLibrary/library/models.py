@@ -38,6 +38,9 @@ class Book(models.Model):
     pub_city = models.ForeignKey(Cities, null=True)
     book_file = models.FileField(upload_to='books/')
 
+    def __str__(self):
+        return "%s. %s" % (self.author, self.title)
+
 
 # Manage User models
 class LibraryUserManager(BaseUserManager):

@@ -14,9 +14,10 @@ class YearField(forms.Field):
         super(YearField, self).clean(value)
 
         try:
-            value = int(value)
-            if value < MIN_YEAR or value > MAX_YEAR:
+            if not value: return value
+            ivalue = int(value)
+            if ivalue < MIN_YEAR or ivalue > MAX_YEAR:
                 raise Exception()
-            return value
+            return ivalue
         except:
             raise ValidationError('Invalid year.')
