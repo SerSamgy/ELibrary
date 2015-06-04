@@ -1,4 +1,28 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    {% if request.user.is_authenticated %}
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'css/base.css' %}">
+    {% endif %}
+{% endblock stylesheets %}
+
+{% block header %}
+    {% if request.user.is_authenticated %}
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a>{{request.user.login}}</a></li>
+                  <li>
+                      <a href="{% url 'logout' %}">Выйти</a>
+                  </li>
+              </ul>
+          </div>
+        </nav>
+    {% endif %}
+{% endblock header %}
 
 {% block navigation %}
     {% include "library/library_navigation.html" %}
