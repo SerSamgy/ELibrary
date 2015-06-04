@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_GET, require_http_methods
 
 from .forms import BookSearchForm, LibraryUserCreationForm
@@ -57,6 +59,7 @@ def register(request):
         form = LibraryUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, _('Вы успешно прошли регистрацию!'))
             return HttpResponseRedirect(reverse('home'))
     else:
         form = LibraryUserCreationForm()

@@ -86,6 +86,8 @@ TEMPLATES = [
     },
 ]
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 # crispy_forms settings
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
