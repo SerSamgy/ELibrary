@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_http_methods
 
-from .forms import BookSearchForm
+from .forms import BookSearchForm, LibraryUserCreationForm
 from .models import Book
 
 
@@ -47,3 +49,16 @@ def book(request, pk):
     book = Book.objects.filter(id=pk)[0]
     return render(request, "library/library_embed_book.html",
                   context={'book': book})
+
+@require_http_methods(['GET', 'POST'])
+def register(request):
+    args = {}
+    if request.method == 'POST':
+        form = LibraryUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        form = LibraryUserCreationForm()
+    args['form'] = form
+    return render(request, "library/library_registration.html", context=args)

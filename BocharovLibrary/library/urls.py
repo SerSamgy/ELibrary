@@ -14,5 +14,6 @@ urlpatterns = [
                                  "authentication_form": LibraryLoginForm},
         name='login'),
     url(r'^logout/', auth_logout,
-        {"template_name": "library/library_logout.html"}, name='logout')
+        {"template_name": "library/library_logout.html"}, name='logout'),
+    url(r'^registration/', views.register, name='registration')
 ]

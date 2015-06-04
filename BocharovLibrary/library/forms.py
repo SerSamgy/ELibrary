@@ -6,8 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField, \
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Reset
-from crispy_forms.bootstrap import StrictButton
+from crispy_forms.layout import Layout, Submit, Reset
 
 from fields import YearField
 
@@ -32,6 +31,13 @@ class LibraryUserCreationForm(forms.ModelForm):
                                 widget=forms.PasswordInput,
                                 help_text=_("Enter the same password as above,"
                                             " for verification."))
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.add_input(Submit("submit", _("Зарегистрироваться"),
+                                css_class="btn-primary btn-hg"))
+        return helper
 
     class Meta:
         model = User
@@ -97,11 +103,11 @@ class BookSearchForm(forms.Form):
             'title',
             'genre',
             'year',
-            'publisher',
-            StrictButton(_("Поиск"), type='submit',
-                         css_class="btn-primary btn-hg"),
-            Reset('reset', _("Очистить"))
+            'publisher'
         )
+        helper.add_input(Submit('submit', _("Поиск"),
+                         css_class="btn-primary btn-hg"))
+        helper.add_input(Reset('reset', _("Очистить")))
         return helper
 
 
@@ -115,8 +121,8 @@ class LibraryLoginForm(AuthenticationForm):
         helper.field_class = "col-lg-10"
         helper.layout = Layout(
             'username',
-            'password',
-            StrictButton(_("Войти"), type='submit',
-                         css_class="btn-primary btn-hg"),
+            'password'
         )
+        helper.add_input(Submit('submit', _("Войти"),
+                         css_class="btn-primary btn-hg"))
         return helper
