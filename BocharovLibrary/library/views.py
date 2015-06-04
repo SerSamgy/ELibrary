@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_http_methods
 
@@ -40,6 +41,7 @@ def books(request):
     return render(request, "library/library_search.html",
                   context=args)
 
+@login_required
 @require_GET
 def book(request, pk):
     book = Book.objects.filter(id=pk)[0]

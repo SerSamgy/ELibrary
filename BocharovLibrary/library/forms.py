@@ -1,7 +1,8 @@
 from django import forms
 from django.apps import apps as django_apps
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, \
+    AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
@@ -85,13 +86,13 @@ class BookSearchForm(forms.Form):
     publisher = forms.CharField(label=_("Издательство"), max_length=64,
                                 required=False)
 
-    def __init__(self, *args, **kwargs):
-        super(BookSearchForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_class = "form-horizontal"
-        self.helper.label_class = "col-lg-2"
-        self.helper.field_class = "col-lg-10"
-        self.helper.layout = Layout(
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_class = "form-horizontal"
+        helper.label_class = "col-lg-2"
+        helper.field_class = "col-lg-10"
+        helper.layout = Layout(
             'author',
             'title',
             'genre',
@@ -101,3 +102,21 @@ class BookSearchForm(forms.Form):
                          css_class="btn-primary btn-hg"),
             Reset('reset', _("Очистить"))
         )
+        return helper
+
+
+class LibraryLoginForm(AuthenticationForm):
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_class = "form-horizontal"
+        helper.label_class = "col-lg-2"
+        helper.field_class = "col-lg-10"
+        helper.layout = Layout(
+            'username',
+            'password',
+            StrictButton(_("Войти"), type='submit',
+                         css_class="btn-primary btn-hg"),
+        )
+        return helper

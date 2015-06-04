@@ -38,6 +38,9 @@ def get_secret(setting, secrets=secrets):
 
 SECRET_KEY = get_secret("SECRET_KEY")
 
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+
 ALLOWED_HOSTS = []
 
 

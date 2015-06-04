@@ -1,0 +1,11 @@
+{% extends "library/base_library.html" %}
+
+{% block title %}
+    Вход в систему
+{% endblock title %}
+
+{% block content %}
+    <h2>Вход в систему</h2>
+    {% load crispy_forms_tags %}
+    {% crispy form %}
+{% endblock content %}
