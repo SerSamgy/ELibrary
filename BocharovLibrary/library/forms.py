@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField, \
 from django.utils.translation import ugettext_lazy as _
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Reset
+from crispy_forms.layout import Layout, Submit, Reset, HTML
 
 from fields import YearField
 
@@ -121,8 +121,9 @@ class LibraryLoginForm(AuthenticationForm):
         helper.field_class = "col-lg-10"
         helper.layout = Layout(
             'username',
-            'password'
+            'password',
+            Submit('submit', _("Войти"), css_class="btn-primary btn-hg"),
+            HTML("   или   <a href='{% url \"registration\" %}'>"
+                 "Зарегистрироваться</a>")
         )
-        helper.add_input(Submit('submit', _("Войти"),
-                         css_class="btn-primary btn-hg"))
         return helper
