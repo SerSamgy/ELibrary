@@ -12,7 +12,7 @@ from fields import YearField
 
 
 User = get_user_model()
-# get model after application had been registered
+# get model after application has been registered
 app = django_apps.get_app_config('library')
 Genre = app.get_model('Genre')
 
@@ -74,6 +74,9 @@ class LibraryUserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 class BookSearchForm(forms.Form):
+    """
+    A form for searching books.
+    """
     author = forms.CharField(label=_("Автор"), max_length=64, required=False)
     title = forms.CharField(label=_("Название"), max_length=255, required=False)
     genre = forms.ModelChoiceField(Genre.objects.all(), label=_("Жанр"),
