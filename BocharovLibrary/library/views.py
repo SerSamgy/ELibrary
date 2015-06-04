@@ -48,6 +48,11 @@ def books(request):
 @login_required
 @require_GET
 def book(request, pk):
+    # our user is already authenticated because of login_required decorator
+    if request.user.banned:
+        messages.error(request, _('Вы забанены на неопределённый срок!'),
+                       extra_tags='danger')
+        return HttpResponseRedirect(reverse('home'))
     book = Book.objects.filter(id=pk)[0]
     return render(request, "library/library_embed_book.html",
                   context={'book': book})
