@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_GET, require_http_methods
 
+from .decorators import ban_check
 from .forms import BookSearchForm, LibraryUserCreationForm
 from .models import Book
 
@@ -13,6 +14,7 @@ from .models import Book
 @require_GET
 def home(request):
     return render(request, "library/base_library.html")
+
 
 @require_http_methods(['GET', 'POST'])
 def books(request):
@@ -34,10 +36,12 @@ def books(request):
                     # since 'genre' field is a ForeignKey, we need to pass
                     # another field to search in
                     skey = "%s__title__icontains" % field
-                if svalue: skwargs[skey] = svalue
+                if svalue:
+                    skwargs[skey] = svalue
             # filter with empty kwargs returns all values from db
             # we don't need it
-            if skwargs: books = Book.objects.filter(**skwargs)
+            if skwargs:
+                books = Book.objects.filter(**skwargs)
     else:
         form = BookSearchForm()
     args['form'] = form
@@ -45,17 +49,15 @@ def books(request):
     return render(request, "library/library_search.html",
                   context=args)
 
+
+@ban_check
 @login_required
 @require_GET
 def book(request, pk):
-    # our user is already authenticated because of login_required decorator
-    if request.user.banned:
-        messages.error(request, _('Вы забанены на неопределённый срок!'),
-                       extra_tags='danger')
-        return HttpResponseRedirect(reverse('home'))
     book = Book.objects.filter(id=pk)[0]
     return render(request, "library/library_embed_book.html",
                   context={'book': book})
+
 
 @require_http_methods(['GET', 'POST'])
 def register(request):
