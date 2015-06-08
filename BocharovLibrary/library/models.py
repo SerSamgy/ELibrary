@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from fields import YearField
+from .fields import YearField
 
 
 class YearModelField(models.IntegerField):

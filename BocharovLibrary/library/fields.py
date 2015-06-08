@@ -2,7 +2,7 @@ from django import forms
 from django.forms.widgets import TextInput
 from django.core.validators import ValidationError
 
-from constants import MIN_YEAR, MAX_YEAR
+from .constants import MIN_YEAR, MAX_YEAR
 
 
 class YearField(forms.Field):

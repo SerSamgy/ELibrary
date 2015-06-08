@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Reset, HTML
 
-from fields import YearField
+from .fields import YearField
 
 
 User = get_user_model()
