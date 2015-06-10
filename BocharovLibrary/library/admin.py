@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .forms import LibraryUserChangeForm, LibraryUserCreationForm
-from .models import LibraryUser, Book
+from .models import LibraryUser, Book, Genre, Cities
 
 
 USERNAME_FIELD = get_user_model().USERNAME_FIELD
@@ -50,3 +50,5 @@ class LibraryUserAdmin(UserAdmin):
     readonly_fields = ('name', 'birth_year', 'city', 'sex')
 
 admin.site.register(Book)
+admin.site.register(Genre)
+admin.site.register(Cities)
