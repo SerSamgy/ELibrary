@@ -49,6 +49,11 @@ class LibraryUserAdmin(UserAdmin):
     filter_horizontal = tuple()
     readonly_fields = ('name', 'birth_year', 'city', 'sex')
 
-admin.site.register(Book)
-admin.site.register(Genre)
-admin.site.register(Cities)
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+
+    search_fields=('title', 'author', 'publisher', 'genre__title',
+                   'pub_city__city_name', 'year')
+
+admin.site.register(Genre, search_fields=('title',))
+admin.site.register(Cities, search_fields=('city_name',))
