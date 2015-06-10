@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -51,7 +50,6 @@ def books(request):
 
 
 @ban_check
-@login_required
 @require_GET
 def book(request, pk):
     book = Book.objects.filter(id=pk)[0]
