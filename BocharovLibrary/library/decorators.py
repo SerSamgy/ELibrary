@@ -12,12 +12,12 @@ def ban_check(func, *args, **kwargs):
     """
     @login_required
     def check(*args, **kwargs):
-        request = args[0]
+        request = args[0]  # first argument of each view is request
         if request.user.banned:
             messages.error(request, _('Вы забанены на неопределённый срок!'),
                            extra_tags='danger')
             return HttpResponseRedirect(reverse('home'))
         else:
-            return func
+            return func(*args, **kwargs)
 
     return check
