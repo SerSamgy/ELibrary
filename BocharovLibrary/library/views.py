@@ -12,11 +12,23 @@ from .models import Book
 
 @require_GET
 def home(request):
+    """
+    Standard root page.
+
+    :param request: GET request
+    :return:        Rendered HTML page
+    """
     return render(request, "library/base_library.html")
 
 
 @require_http_methods(['GET', 'POST'])
 def books(request):
+    """
+    Page with search form. Returns search results to table.
+
+    :param request: GET/POST request
+    :return:        HTML page with search form and list of found books
+    """
     args = {}
     books = None
     if request.method == 'POST':
@@ -52,6 +64,15 @@ def books(request):
 @ban_check
 @require_GET
 def book(request, pk):
+    """
+    Page with embed book file to read. Checks if user is banned.
+    If it's true, shows error message and blocks content from user.
+
+    :param request: GET request
+    :param pk:      Primary key to book record
+    :return:        HTML page with embedded (wrapped in <embed> tag) book file
+                    or 404 if record hasn't been found
+    """
     book = get_object_or_404(Book, id=pk)
     return render(request, "library/library_embed_book.html",
                   context={'book': book})
@@ -59,6 +80,12 @@ def book(request, pk):
 
 @require_http_methods(['GET', 'POST'])
 def register(request):
+    """
+    Standard registration form. Redirects to root page on success.
+
+    :param request: GET/POST request
+    :return:        Rendered form
+    """
     args = {}
     if request.method == 'POST':
         form = LibraryUserCreationForm(request.POST)
