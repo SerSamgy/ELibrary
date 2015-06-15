@@ -21,4 +21,10 @@ next format:
 3.  _settings.py_ file has been replaced with __settings__ module and placed in
 __config__ module with _urls.py_ and _wsgi.py_ files. In __settings__ module all 
 default settings stored in _base.py_ file. _local.py_ and _production.py_ files 
-has extra settings for local and production servers respectively.
+has extra settings for local and production servers respectively.  
+To use management commands with this setup you'll have to use the `--settings` 
+command line option. E.g. to run the local development server with 
+__settings/local.py__ settings file:
+    ```shell
+    python manage.py runserver --settings=config.settings.local
+    ```
