@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_GET, require_http_methods
 
@@ -52,7 +52,7 @@ def books(request):
 @ban_check
 @require_GET
 def book(request, pk):
-    book = Book.objects.filter(id=pk)[0]
+    book = get_object_or_404(Book, id=pk)
     return render(request, "library/library_embed_book.html",
                   context={'book': book})
 
